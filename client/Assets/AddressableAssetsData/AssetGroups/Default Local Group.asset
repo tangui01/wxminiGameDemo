@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 2d791e1496fdd7a43b84349fc4bd681b
+  m_SerializeEntries:
+  - m_GUID: e8fb1c08dcf386e4ab3fc625a2a16a0f
+    m_Address: "Assets/AddressResources/Fonts/MOHO\u3099-2 SDF.asset"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 97963a7bce746fa4b9bd26bbb82f2bcc
+    m_Address: "Assets/AddressResources/Fonts/MOHO\u3099-2.ttf"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c86aff66e469abb49bd5e865c5dd9071
+    m_Address: "Assets/AddressResources/Fonts/MOHO\u3099-2 Atlas Outline.mat"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f12afc11f9d10074884bd57ba3104553
+    m_Address: Assets/AddressResources/Texture/Altas/Majiang.spriteatlas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e9712604ed1e90847b6d0dcda5a2bbef
+    m_Address: Assets/AddressResources/Prefabs/MajiangMesh.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d639de3c6c6cfd4469545efd1f1d9722
+    m_Address: Assets/AddressResources/Prefabs/ui_majiang.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 740facb4022a69643b981f3ee3d396b0
+    m_Address: erials/majiang.matajiang.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8542ea63acc4b764c95c59ebe3e2d4e1
+    m_Address: Assets/AddressResources/Texture/Altas/ui.spriteatlas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c3dca5642cfc58943bd3752c4dc89110
+    m_Address: Assets/AddressResources/Scenes/MainScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bbfc80e5f9d90c445a085d01b903f011
+    m_Address: Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 38ec60e025248d64da4e8c42a80e0e58
+    m_Address: RedTeam
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 528b34d848626e542b45d6e7000c4f07
+    m_Address: Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ddd935d7a3f7a7e4dbd166355d7821f0
+    m_Address: HpState
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ac72fa657b1dbda4995418510febecfb
+    m_Address: GreenDiamond
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 73586ed88b005384cbc6f149c02bfe3b
+    m_Address: SilverCoin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: ef973e3cb756e1b42a0d49d1cfcca3e7, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 17194c13858cabe43bca61beb6a727bd, type: 2}
+    - {fileID: 11400000, guid: 95c7f530cbcf87944b0be4b375eb340c, type: 2}
