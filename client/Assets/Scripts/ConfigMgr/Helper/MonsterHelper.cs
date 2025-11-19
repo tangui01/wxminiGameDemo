@@ -8,7 +8,8 @@ public struct MonsterData
     public int monsterName;
     public float maxHp;
     public float attackValue;
-    public float attackDis;//¹¥»÷¾àÀë
+    public float attackDis;
+    public int expValue;
 }
 [System.Serializable]
 public struct MonsterDataRoot

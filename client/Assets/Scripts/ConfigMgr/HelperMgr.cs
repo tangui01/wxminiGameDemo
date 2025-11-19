@@ -44,12 +44,16 @@ public class HelperMgr
 
     public void InputHelper()
     {
-        var _TestHelper = new TestHelper();
-        var _EnemyHelper = new EnemyHelper();
-        var _MonsterHelper = new MonsterHelper();
-        config.Add(typeof(TestHelper).Name, _TestHelper);
-        config.Add(typeof(EnemyHelper).Name, _EnemyHelper);
-        config.Add(typeof(MonsterHelper).Name, _MonsterHelper);
+        var testHelper = new TestHelper();
+        var enemyHelper = new EnemyHelper();
+        var monsterHelper = new MonsterHelper();
+        var playerUpLevelHelper = new PlayerUpLevelHelper();
+        var levelGameDataHelper = new LevelGameDataHelper();
+        config.Add(typeof(TestHelper).Name, testHelper);
+        config.Add(typeof(EnemyHelper).Name, enemyHelper);
+        config.Add(typeof(MonsterHelper).Name, monsterHelper);
+        config.Add(typeof(PlayerUpLevelHelper).Name, playerUpLevelHelper);
+        config.Add(typeof(LevelGameDataHelper).Name, levelGameDataHelper);
         configKey = new List<string>(config.Keys);
     }
 

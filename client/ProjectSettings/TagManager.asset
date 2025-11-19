@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Canvas
+  - Monster
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - Majiang
   - RedTeam
   - BlueTeam
-  - 
+  - Boundary
   - 
   - 
   - 
@@ -41,4 +43,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bg
+    uniqueID: 957251443
+    locked: 0
+  - name: Monster
+    uniqueID: 4053233103
+    locked: 0
+  - name: Player
+    uniqueID: 2108325591
+    locked: 0
+  - name: Gun
+    uniqueID: 1487444981
+    locked: 0
+  - name: Bullet
+    uniqueID: 3885631471
+    locked: 0
+  - name: UI
+    uniqueID: 2245941021
     locked: 0

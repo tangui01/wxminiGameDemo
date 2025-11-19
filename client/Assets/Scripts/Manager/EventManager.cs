@@ -6,7 +6,7 @@ public class EventManager
 {
     public static EventManager _instance = null;
     /// <summary>
-    /// ÊÂ¼þÈÝÆ÷
+    /// ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private Dictionary<sky_mirror.SM_EventType, Action<string, string, string>> eventDic = new Dictionary<sky_mirror.SM_EventType, Action<string, string, string>>();
     public void Init()
@@ -25,10 +25,10 @@ public class EventManager
     }
 
     /// <summary>
-    /// Ìí¼ÓÊÂ¼þ¼àÌý
+    /// ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="name">ÊÂ¼þÃû×Ö</param>
-    /// <param name="action">×¼±¸ÓÃÀ´´¦ÀíÊÂ¼þµÄÎ¯ÍÐº¯Êý</param>
+    /// <param name="name">ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="action">×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Î¯ï¿½Ðºï¿½ï¿½ï¿½</param>
     public void AddEventListener(sky_mirror.SM_EventType eventName, Action<string, string, string> action)
     {
         //GlobalFunc.Log("AddEventListener:" + eventName);
@@ -43,7 +43,7 @@ public class EventManager
     }
 
     /// <summary>
-    /// ÊÂ¼þ´¥·¢
+    /// ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="name"></param>
     public void EventTrigger(sky_mirror.SM_EventType eventName, string info ="", string info2 = "", string info3 = "")
@@ -61,18 +61,18 @@ public class EventManager
                 Debug.Log("eventName:" + eventName + " " + info + " " + info2);
                 Debug.Log("EventTrigger -----" + e.Message);
             }
-            finally//Õâ¸öÒ²¿ÉÒÔ²»Ð´
+            finally//ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½Ô²ï¿½Ð´
             {
-                // ÕâÀïÃæÊÇ²»¹ÜÒì³£²»Òì³£¶¼»áÖ´ÐÐµÄÓï¾ä
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ðµï¿½ï¿½ï¿½ï¿½
             }
         }
     }
 
     /// <summary>
-    /// ÒÆ³ýÊÂ¼þ¼àÌý
+    /// ï¿½Æ³ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="name">ÊÂ¼þÃû×Ö</param>
-    /// <param name="action">Î¯ÍÐº¯Êý</param>
+    /// <param name="name">ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="action">Î¯ï¿½Ðºï¿½ï¿½ï¿½</param>
     public void RemoveEventListener(sky_mirror.SM_EventType eventName, Action<string,string,string> action)
     {
         //GlobalFunc.Log("RemoveEventListener:" + eventName);
@@ -81,7 +81,7 @@ public class EventManager
     }
 
     /// <summary>
-    /// Çå¿ÕÊÂ¼þÖÐÐÄ
+    /// ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void Clear()
     {

@@ -9,7 +9,7 @@ namespace sky_mirror
 
     public enum PropEnum
     {
-        Currency,//»õ±Ò
+        Currency,//ï¿½ï¿½ï¿½ï¿½
     }
 
     public enum Camp
@@ -29,7 +29,7 @@ namespace sky_mirror
         FlushCurrency,
         FightPauseClickOver,
 
-        //Ë®¹ûµº´óÕ½Demo
+        //Ë®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½Demo
         CurrencyChange
     }
 
@@ -37,10 +37,10 @@ namespace sky_mirror
     {
         Null,
         Gutou,
-        Jin,//»õ±Ò1
-        Zhuan,//×êÊ¯
-        GreenDiamond,//ÂÌ×êÊ¯
-        SilverCoin,//Òø±Ò
+        Jin,//ï¿½ï¿½ï¿½ï¿½1
+        Zhuan,//ï¿½ï¿½Ê¯
+        GreenDiamond,//ï¿½ï¿½ï¿½ï¿½Ê¯
+        SilverCoin,//ï¿½ï¿½ï¿½ï¿½
         Max
 
     }
@@ -61,25 +61,27 @@ namespace sky_mirror
         AdsData,
         AdsFinishData,
         Cebianlan,
+        Battle,//Õ½ï¿½ï¿½Ä£ï¿½ï¿½
+        GameData,
     }
 
     public enum AITreeEnum
     {
         Mutou,//Ä¾Í·AI
-        ATK,//½ø¹¥AI
+        ATK,//ï¿½ï¿½ï¿½ï¿½AI
     }
 
     public enum ATKBoxEnum
     {
-        Dan,//µ¥ÌåÖ¸¶¨½ÇÉ«
-        AOE,//·¶Î§
+        Dan,//ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½É«
+        AOE,//ï¿½ï¿½Î§
     }
 
     public enum FightSceneState
     {
-        Ready,//×¼±¸ºÃ
-        Start,//¿ªÊ¼
-        Over,//½áÊø
+        Ready,//×¼ï¿½ï¿½ï¿½ï¿½
+        Start,//ï¿½ï¿½Ê¼
+        Over,//ï¿½ï¿½ï¿½ï¿½
     }
 
     public enum LockEnum

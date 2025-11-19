@@ -19,9 +19,11 @@ public class PlayerData
 
     public PlayerData()
     {
-        //´´½¨Êý¾ÝÄ£¿é
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
         AddData(new Currency());
         AddData(new AdsFinishData());
+        AddData(new Battle());
+        AddData(new GameData());
     }
 
     public void AddData(BassData data)
@@ -43,6 +45,16 @@ public class PlayerData
     public static Currency GetCurrency()
     {
         return (Currency)Instance().GetDataForId(DataEnum.Currency);
+    }
+
+    public static Battle GetBattle()
+    {
+        return (Battle)Instance().GetDataForId(DataEnum.Battle);
+    }
+
+    public static GameData GetGameData()
+    {
+        return (GameData)Instance().GetDataForId(DataEnum.GameData);
     }
 
     public void ClearData()

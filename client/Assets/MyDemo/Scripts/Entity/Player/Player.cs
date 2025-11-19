@@ -1,58 +1,69 @@
+using System;
 using UnityEngine;
 namespace MyDemo
 {
     public class Player : Entity
     {
         #region States
-
+        public StateMachine<Player> MStateMachine { get; private set; }
         public PlayerIdleState IdleState { get; private set; }
         public PlayerRunState RunState { get; private set; }
-
+        
         private Camera mainCamera;
-
         #endregion
 
-        public StateMachine<Player> MStateMachine { get; private set; }
+     
 
-        public Vector3 TargetPosition { get; private set; } //移动的目标位置
+        public float TargetPosition { get; set; } //移动的目标位置
 
-
-        public PlayerDataConfig PlayerDataConfig { get; private set; }
+        public float runSpeed;
 
         public Gun Gun { get; private set; }
+        
+        private PlayerLevelSys playerLevelSys;
 
+        
+
+        public void Init()
+        {
+            //获取角色游戏数据
+            var data = PlayerData.GetGameData();
+            PlayerGameData gameData = data.GetData();
+            transform.position = data.GetPlayerPos();
+
+            SetDir.SetFaceDir(gameData.isFaceRight ? FaceDirType.Right : FaceDirType.Left);
+
+            playerLevelSys = GetComponent<PlayerLevelSys>();
+            playerLevelSys.Init();
+         
+        }
 
         protected override void Awake()
         {
             base.Awake();
-            mainCamera = Camera.main;
-            PlayerDataConfig = GetComponent<PlayerDataConfig>();
+            Gun = transform.Find("Gun").GetComponent<Gun>();
+            Gun.Init(attackValue);
             MStateMachine = new StateMachine<Player>();
             IdleState = new PlayerIdleState();
             RunState = new PlayerRunState();
             IdleState.Init(MStateMachine, this);
             MStateMachine.Init(IdleState);
             RunState.Init(MStateMachine, this);
-        }
-
-        public void Init()
-        {
-            Gun = transform.Find("Gun").GetComponent<Gun>();
-            Gun.Init(attackValue);
+            mainCamera=Camera.main;
         }
 
         private void OnEnable()
         {
             EventManager.Register<Vector3>(GameEventKey.ScreenClick, Run);
-            EventManager.Register<Vector3>(GameEventKey.GunShoot, Shoot);
             EventManager.Register<int>(GameEventKey.PlayerHit, Hit);
+            EventManager.Register(GameEventKey.GameExit, SaveData);
         }
 
         private void OnDisable()
         {
             EventManager.Unregister<Vector3>(GameEventKey.ScreenClick, Run);
-            EventManager.Unregister<Vector3>(GameEventKey.GunShoot, Shoot);
             EventManager.Unregister<int>(GameEventKey.PlayerHit, Hit);
+            EventManager.Unregister(GameEventKey.GameExit, SaveData);
         }
 
         private void Update()
@@ -63,31 +74,12 @@ namespace MyDemo
         /// <summary>
         /// 移动函数
         /// </summary>
-        /// <param name="clickScreenPosition">屏幕点击位置</param>
-        private void Run(Vector3 clickScreenPosition)
+        private void Run(Vector3 targetPosition)
         {
-            Vector3 clickWorldPosition = clickScreenPosition;
-            clickWorldPosition.z = 10;
-            TargetPosition = mainCamera.ScreenToWorldPoint(clickWorldPosition);
+            targetPosition.z = 10;
+            TargetPosition = mainCamera.ScreenToWorldPoint(targetPosition).x;
             MStateMachine.ChangeState(RunState);
         }
-
-        /// <summary>
-        /// 射击时要朝向怪物那一边
-        /// </summary>
-        /// <param name="targetPosition"></param>
-        private void Shoot(Vector3 targetPosition)
-        {
-            if (targetPosition.x > transform.position.x)
-            {
-                SetDir.SetFaceDir(FaceDirType.Right);
-            }
-            else if (targetPosition.x < transform.position.x)
-            {
-                SetDir.SetFaceDir(FaceDirType.Left);
-            }
-        }
-
         private void Hit(int damage)
         {
             Damage(damage);
@@ -107,5 +99,12 @@ namespace MyDemo
             return transform.position;
         }
 
+        private void SaveData()
+        {
+            var data = PlayerData.GetGameData();
+            PlayerGameData gameData = data.GetData();
+            data.SetPos(transform.position);
+            data.SetDir(SetDir.GetCurrentFaceDir());
+        }
     }
 }

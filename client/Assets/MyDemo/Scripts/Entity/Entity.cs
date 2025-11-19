@@ -23,7 +23,7 @@ public class Entity : MonoBehaviour
 
 
 
-    public void Damage(float damage)
+    public virtual void Damage(float damage)
     {
         currentHealth -= damage;
     }

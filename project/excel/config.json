@@ -1,6 +1,8 @@
 {
 	"array":[
 		{"excel_name":"excel/test.xlsx", "output_path":"config/test_cf.json", "sheet_name":"u_表", "is_array":"1"},
-		{"excel_name":"excel/MonsterData.xlsx", "output_path":"config/monster_cf.json", "sheet_name":"u_表", "is_array":"1"}
+		{"excel_name":"excel/MonsterData.xlsx", "output_path":"config/monster_cf.json", "sheet_name":"u_表", "is_array":"1"},
+		{"excel_name":"excel/PlayerUpLevelData.xlsx", "output_path":"config/playerupleveldata_cf.json", "sheet_name":"u_表", "is_array":"1"},
+		{"excel_name":"excel/LevelGameData.xlsx", "output_path":"config/levelgamedata_cf.json", "sheet_name":"u_表", "is_array":"1"}
 	]
 }

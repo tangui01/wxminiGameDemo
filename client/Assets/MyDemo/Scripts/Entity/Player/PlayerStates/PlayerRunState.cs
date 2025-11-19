@@ -15,23 +15,18 @@ public class PlayerRunState : IsState<Player>
     StateMachine<Player> IsState<Player>.StateMachine => _stateMachine;
 
     Player IsState<Player>.Entity => _entity;
-    private Vector3 _targetPosition;
-    private Vector3 _moveDir; //移动方向
-    private float _arrivalThreshold = 0.1f;
-    private float _sqrThreshold;
+    private float _targetPosition;
 
     public void Init(StateMachine<Player> stateMachine, Player entity)
     {
         _stateMachine = stateMachine;
         _entity = entity;
-        _sqrThreshold = _arrivalThreshold * _arrivalThreshold;
     }
 
     public void Enter()
     {
-        _targetPosition = _entity.TargetPosition;
-        _moveDir = (_targetPosition - _entity.transform.position).normalized;
         _entity.EntityVisual.RunningAni(true);
+        _targetPosition = _entity.TargetPosition;
         SetDir();
     }
 
@@ -39,24 +34,33 @@ public class PlayerRunState : IsState<Player>
     {
         if (!Arrive())
         {
-            _entity.SetVelocity( _moveDir * _entity.PlayerDataConfig.runSpeed);
+            Move();
         }
         else
         {
-            _entity.MStateMachine.ChangeState(_entity.IdleState);
+            _stateMachine.ChangeState(_entity.IdleState);
         }
     }
 
-    //是否到达目的地
+    private void Move()
+    {
+        if (_entity.SetDir.GetCurrentFaceDir()==FaceDirType.Right)
+        {
+            _entity.SetVelocity(Vector2.right*_entity.runSpeed);
+        }
+        else if (_entity.SetDir.GetCurrentFaceDir() == FaceDirType.Left)
+        {
+            _entity.SetVelocity(Vector2.left*_entity.runSpeed);
+        }
+
+    }
+
     private bool Arrive()
     {
-        // 使用平方距离避免开方运算
-        Vector3 offset = _targetPosition - _entity.transform.position;
-        if (offset.sqrMagnitude <= _sqrThreshold)
+        if (MathF.Abs(_entity.TargetPosition - _entity.transform.position.x) <0.1f)
         {
             return true;
         }
-
         return false;
     }
 
@@ -65,11 +69,11 @@ public class PlayerRunState : IsState<Player>
     /// </summary>
     private void SetDir()
     {
-        if (_entity.TargetPosition.x <= _entity.transform.position.x)
+        if (_entity.TargetPosition <= _entity.transform.position.x)
         {
             _entity.SetDir.SetFaceDir(FaceDirType.Left);
         }
-        else if (_entity.TargetPosition.x >= _entity.transform.position.x)
+        else if (_entity.TargetPosition > _entity.transform.position.x)
         {
             _entity.SetDir.SetFaceDir(FaceDirType.Right);
         }
@@ -77,7 +81,7 @@ public class PlayerRunState : IsState<Player>
 
     public void Exit()
     {
-        _entity.SetVelocity( Vector3.zero);
+        _entity.SetVelocity(Vector3.zero);
         _entity.EntityVisual.RunningAni(false);
     }
 }

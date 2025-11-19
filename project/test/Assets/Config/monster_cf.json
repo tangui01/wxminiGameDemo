@@ -1,2 +1,2 @@
-{ "root":[{"index":1,"monsterName":"哥布林","maxHp":100,"attackValue":20,"attackDis":0.1}
+{ "root":[{"index":1,"monsterName":"哥布林","maxHp":100,"attackValue":20,"attackDis":0.1,"expValue":1}
 ] } 

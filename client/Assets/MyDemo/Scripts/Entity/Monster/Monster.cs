@@ -93,6 +93,7 @@ namespace MyDemo
 
         public void Die()
         {
+            EventManager.Execute(GameEventKey.PlayerExpAdd,MonsterData.expValue);
             PoolManager.Instance.EnterPool("Monster", gameObject);
         }
     }
