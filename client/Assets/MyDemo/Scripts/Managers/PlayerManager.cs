@@ -6,14 +6,17 @@ namespace MyDemo
 public class PlayerManager : SingletonMonoBase<PlayerManager>
 {
     [SerializeField]private Player player;
-    [SerializeField] private GameObject playerPrefab;
-    
+    [SerializeField] private Vector3 playerSpawnPosition;
     public Player Player => player;
 
     public void InitPlayer()
     {
-        player = Instantiate(playerPrefab).GetComponent<Player>();
-        player.Init();
+        PoolManager.Instance.FromPoolGetGameObject("Player", (obj) =>
+        {
+            player= obj.GetComponent<Player>();
+            player.Init();
+        });
+        
     }
     public void GameOver()
     {

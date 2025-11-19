@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MyDemo
 {
@@ -11,38 +9,28 @@ namespace MyDemo
     public class LevelManager : SingletonMonoBase<LevelManager>
     {
         private LevelGameData _currentLevelData;
-        private int _currentLevelId; //当前关卡
+        [SerializeField]private int currentLevelId; //当前关卡
 
         public void Init()
         {
-            _currentLevelId = PlayerData.GetGameData().GetData().currentLevel;
-            GetLevelData(_currentLevelId);
+            currentLevelId = PlayerData.GetGameData().GetData().currentLevel;
+            SetLevelData(currentLevelId);
         }
 
-        private void GetLevelData(int levelid)
+        private void SetLevelData(int levelid)
         {
             var le = HelperMgr.Instance().GetHelper<LevelGameDataHelper>();
             _currentLevelData = le.GetLevelGameData(levelid);
         }
 
-        /// <summary>
-        /// 关卡开始
-        /// </summary>
-        private void LevelStart()
-        {
-            
-        }
-        /// <summary>
-        /// 关卡结束
-        /// </summary>
-        private void LevelEnd()
-        {
-            
-        }
-
         public LevelGameData GetCurrentLevelGameData()
         {
             return _currentLevelData;
+        }
+
+        public int GetCurrentLevelId()
+        {
+            return currentLevelId;
         }
     }
 }

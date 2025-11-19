@@ -2,6 +2,21 @@ using System;
 using UnityEngine;
 namespace MyDemo
 {
+    /// <summary>
+    /// 主角战斗模式
+    /// </summary>
+    public enum PlayerBattleMode
+    {
+        /// <summary>
+        /// 近战
+        /// </summary>
+        Melee,
+        /// <summary>
+        /// 远程
+        /// </summary>
+        Gun
+    }
+
     public class Player : Entity
     {
         #region States
@@ -12,11 +27,10 @@ namespace MyDemo
         private Camera mainCamera;
         #endregion
 
-     
+        [SerializeField] protected int attackValue;
 
         public float TargetPosition { get; set; } //移动的目标位置
-
-        public float runSpeed;
+        
 
         public Gun Gun { get; private set; }
         
@@ -30,12 +44,8 @@ namespace MyDemo
             var data = PlayerData.GetGameData();
             PlayerGameData gameData = data.GetData();
             transform.position = data.GetPlayerPos();
-
-            SetDir.SetFaceDir(gameData.isFaceRight ? FaceDirType.Right : FaceDirType.Left);
-
             playerLevelSys = GetComponent<PlayerLevelSys>();
             playerLevelSys.Init();
-         
         }
 
         protected override void Awake()
@@ -49,19 +59,16 @@ namespace MyDemo
             IdleState.Init(MStateMachine, this);
             MStateMachine.Init(IdleState);
             RunState.Init(MStateMachine, this);
-            mainCamera=Camera.main;
         }
 
         private void OnEnable()
         {
-            EventManager.Register<Vector3>(GameEventKey.ScreenClick, Run);
             EventManager.Register<int>(GameEventKey.PlayerHit, Hit);
             EventManager.Register(GameEventKey.GameExit, SaveData);
         }
 
         private void OnDisable()
         {
-            EventManager.Unregister<Vector3>(GameEventKey.ScreenClick, Run);
             EventManager.Unregister<int>(GameEventKey.PlayerHit, Hit);
             EventManager.Unregister(GameEventKey.GameExit, SaveData);
         }
@@ -71,21 +78,13 @@ namespace MyDemo
             MStateMachine.CurrentState.Execute();
         }
 
-        /// <summary>
-        /// 移动函数
-        /// </summary>
-        private void Run(Vector3 targetPosition)
-        {
-            targetPosition.z = 10;
-            TargetPosition = mainCamera.ScreenToWorldPoint(targetPosition).x;
-            MStateMachine.ChangeState(RunState);
-        }
+
         private void Hit(int damage)
         {
             Damage(damage);
             if (GetCurrentHealth() > 0)
             {
-                EntityVisual.HitAni();
+                EntityVisual.HitAni(true);
             }
             else
             {
@@ -103,8 +102,6 @@ namespace MyDemo
         {
             var data = PlayerData.GetGameData();
             PlayerGameData gameData = data.GetData();
-            data.SetPos(transform.position);
-            data.SetDir(SetDir.GetCurrentFaceDir());
         }
     }
 }

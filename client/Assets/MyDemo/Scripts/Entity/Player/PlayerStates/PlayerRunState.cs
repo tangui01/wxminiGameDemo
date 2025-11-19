@@ -32,38 +32,8 @@ public class PlayerRunState : IsState<Player>
 
     public void Execute()
     {
-        if (!Arrive())
-        {
-            Move();
-        }
-        else
-        {
-            _stateMachine.ChangeState(_entity.IdleState);
-        }
+        
     }
-
-    private void Move()
-    {
-        if (_entity.SetDir.GetCurrentFaceDir()==FaceDirType.Right)
-        {
-            _entity.SetVelocity(Vector2.right*_entity.runSpeed);
-        }
-        else if (_entity.SetDir.GetCurrentFaceDir() == FaceDirType.Left)
-        {
-            _entity.SetVelocity(Vector2.left*_entity.runSpeed);
-        }
-
-    }
-
-    private bool Arrive()
-    {
-        if (MathF.Abs(_entity.TargetPosition - _entity.transform.position.x) <0.1f)
-        {
-            return true;
-        }
-        return false;
-    }
-
     /// <summary>
     /// 根据点击的位置设置人物的朝向
     /// </summary>
@@ -81,7 +51,6 @@ public class PlayerRunState : IsState<Player>
 
     public void Exit()
     {
-        _entity.SetVelocity(Vector3.zero);
         _entity.EntityVisual.RunningAni(false);
     }
 }

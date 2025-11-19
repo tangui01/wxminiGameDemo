@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using MyDemo;
 using UnityEngine;
-namespace MyDemo
+
+namespace  MyDemo
 {
     public class MonsterDieState : IsState<Monster>
     {
@@ -11,7 +13,7 @@ namespace MyDemo
         StateMachine<Monster> IsState<Monster>.StateMachine => _stateMachine;
 
         Monster IsState<Monster>.Entity => _entity;
-
+        private float stateTimer;
 
         public void Init(StateMachine<Monster> stateMachine, Monster entity)
         {
@@ -21,17 +23,25 @@ namespace MyDemo
 
         public void Enter()
         {
-            _entity.EntityVisual.DeadAni(true);
+           _entity.EntityVisual.DeadAni(true);
         }
 
         public void Execute()
         {
-
+            stateTimer+=Time.deltaTime;
+            if (stateTimer>=_entity.dieTime)
+            {
+                stateTimer = 0;
+                _stateMachine.ChangeState(_entity.IdleState);
+            }
         }
 
         public void Exit()
         {
+            _entity.Die();
             _entity.EntityVisual.DeadAni(false);
+            EventManager.Execute(GameEventKey.MonsterDie);
         }
     }
 }
+

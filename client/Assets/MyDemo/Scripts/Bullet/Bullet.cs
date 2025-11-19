@@ -1,52 +1,44 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using MyDemo;
+using DG.Tweening;
 using UnityEngine;
 
-/// <summary>
-/// 子弹基类
-/// </summary>
-public class Bullet : MonoBehaviour
+namespace MyDemo
 {
-    private Rigidbody2D _rb;
-
-    private float attackAalue;
-
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-    }
-
     /// <summary>
-    /// 子弹初始化
+    /// 子弹基类
     /// </summary>
-    /// <param name="initPosition">初始位置</param>
-    /// <param name="direction">发射方向</param>
-    /// <param name="shootSpeed"></param>
-    public void Init(Vector3 initPosition, Vector3 direction,float shootSpeed,float Attackvalue)
+    public class Bullet : MonoBehaviour
     {
-        transform.position = initPosition;
-        _rb.velocity = direction*shootSpeed;
-        attackAalue = Attackvalue;
-        Invoke(nameof(Destroy), 2f);
-    }
+        private int _attackValue;
 
-    private void Destroy()
-    {
-        PoolManager.Instance.EnterPool("Bullet", gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        //如果打到了怪物
-        if (other.CompareTag("Monster"))
+        /// <summary>
+        /// 子弹初始化
+        /// </summary>
+        /// <param name="initPosition">初始位置</param>
+        /// <param name="shootSpeed"></param>
+        /// <param name="attack"></param>
+        public void Init(Vector3 initPosition, float targetX, float shootSpeed, int attack)
         {
-            Destroy();
+            transform.position = initPosition;
+            _attackValue = attack;
+            transform.DOMoveX(targetX, shootSpeed).onComplete += Destroy;
         }
-    }
-    public float GetAttackValue()
-    {
-        return attackAalue;
+
+        private void Destroy()
+        {
+            EventManager.Execute(GameEventKey.MonsterHit, _attackValue);
+            PoolManager.Instance.EnterPool("Bullet", gameObject);
+        }
+
+        public float GetAttackValue()
+        {
+            return _attackValue;
+        }
+
+        private void Update()
+        {
+        }
     }
 }

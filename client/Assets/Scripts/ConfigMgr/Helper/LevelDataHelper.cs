@@ -1,13 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 [Serializable]
 public struct LevelGameData
 {
     public int levelID;
-    public string minion;//普通小怪
-    public string boss;//关卡Boss
+    /// <summary>
+    ///普通小怪
+    /// </summary>
+    public string minion;
+    /// <summary>
+    /// 关卡Boss
+    /// </summary>
+    public string boss;
 }
 [Serializable]
 public struct LevelGameDataRoot

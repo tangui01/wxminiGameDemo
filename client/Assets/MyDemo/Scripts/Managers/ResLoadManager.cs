@@ -15,8 +15,6 @@ namespace MyDemo
         private GameObject loadedAsset;
         public void LoadAsset(string assetKey) 
         {
-             assetHandle= Addressables.LoadAssetAsync<GameObject>(assetKey);
-             assetHandle.Completed += OnAssetLoaded;
              
         }
         private void OnAssetLoaded(AsyncOperationHandle<GameObject> handle)

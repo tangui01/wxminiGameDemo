@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PreparePool
 {
@@ -18,7 +20,7 @@ namespace MyDemo
     public class PoolManager : SingletonMonoBase<PoolManager>
     {
         private Dictionary<string, Queue<GameObject>> poolDict;
-
+        
         private Transform _poolRoot;
 
         //队列的预先容量
@@ -28,6 +30,7 @@ namespace MyDemo
         {
             poolDict = new Dictionary<string, Queue<GameObject>>();
         }
+
         /// <summary>
         /// 进入对象池
         /// </summary>
@@ -68,15 +71,19 @@ namespace MyDemo
             poolObject.transform.position = Vector3.one * 1000;
             poolObject.transform.SetParent(child);
         }
-
+        
         /// <summary>
         /// 获取对象
         /// </summary>
         /// <param name="poolName"></param>
-        /// <param name="poolObject"></param>
-        public GameObject FromPoolGetGameObject(string poolName, GameObject poolObject)
+        public void  FromPoolGetGameObject(string poolName,Action<GameObject> callback=null)
         {
-            GameObject obj = null;
+            StartCoroutine(LoadPool(poolName, callback));
+        }
+
+        IEnumerator LoadPool(string poolName,Action<GameObject> callback)
+        {
+            GameObject obj=null;
             //判断池中是否有这个键值
             if (poolDict.TryGetValue(poolName, out Queue<GameObject> pool))
             {
@@ -88,18 +95,45 @@ namespace MyDemo
                 else
                 {
                     //如果没有就实例化一个给它
-                    obj = Instantiate(poolObject);
+                    AsyncOperationHandle<GameObject> assetHandle = Addressables.LoadAssetAsync<GameObject>(poolName);
+                    yield return assetHandle;
+                    if (assetHandle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        obj = Instantiate(assetHandle.Result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"没有{poolName}这个名字的资源");
+                    }
                 }
             }
             else
             {
-                obj = Instantiate(poolObject);
-                poolDict.Add(poolName, new Queue<GameObject>(_expectedMaxSize));
+                AsyncOperationHandle<GameObject> assetHandle = Addressables.LoadAssetAsync<GameObject>(poolName);
+                yield return assetHandle;
+                if (assetHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    obj = Instantiate(assetHandle.Result);
+                    Queue < GameObject> a= new Queue<GameObject>(_expectedMaxSize);
+                    a.Enqueue(obj);
+                    poolDict.Add(poolName, a);
+                }
+                else
+                {
+                    Debug.LogError($"没有{poolName}这个名字的资源");
+                }
             }
 
             obj.SetActive(true);
             obj.transform.SetParent(null);
-            return obj;
+            yield return null;
+            callback?.Invoke(obj);
+        }
+
+
+        private void OnDestroy()
+        {
+            ClearPool();
         }
 
         public void ClearPool()

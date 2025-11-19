@@ -5,10 +5,8 @@ using UnityEngine;
 public struct MonsterData
 {
     public int index;
-    public int monsterName;
+    public string monsterName;
     public float maxHp;
-    public float attackValue;
-    public float attackDis;
     public int expValue;
 }
 [System.Serializable]

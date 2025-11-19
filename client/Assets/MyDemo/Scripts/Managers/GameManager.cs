@@ -18,8 +18,8 @@ namespace MyDemo
         public void GameStart()
         {
             IsGameOver = false;
-            PlayerManager.Instance.InitPlayer();
             LevelManager.Instance.Init();
+            PlayerManager.Instance.InitPlayer();
         }
 
         public void GameOver()

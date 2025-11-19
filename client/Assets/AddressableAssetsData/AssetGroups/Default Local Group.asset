@@ -53,16 +53,8 @@ MonoBehaviour:
     m_Address: Assets/AddressResources/Scenes/MainScene.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: bbfc80e5f9d90c445a085d01b903f011
-    m_Address: Bullet
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 38ec60e025248d64da4e8c42a80e0e58
     m_Address: RedTeam
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 528b34d848626e542b45d6e7000c4f07
-    m_Address: Player
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: ddd935d7a3f7a7e4dbd166355d7821f0

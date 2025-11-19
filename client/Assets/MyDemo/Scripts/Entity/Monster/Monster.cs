@@ -1,4 +1,7 @@
+using System;
+using DG.Tweening;
 using UnityEngine;
+
 namespace MyDemo
 {
     /// <summary>
@@ -6,95 +9,65 @@ namespace MyDemo
     /// </summary>
     public class Monster : Entity
     {
-        #region States
+        public float targetPositionX;
+        public float moveTime;
+        public float hitTime;//受伤时间
+        public float dieTime;//死亡时间
+        public MonsterIdleState IdleState { get; set; }
+        public MonsterRunState RunState { get; set; }
+        public MonsterHitState HitState { get; set; }
+        public MonsterDieState DieState { get; set; }
+        public StateMachine<Monster> StateMachine { get; set; }
+        
+        private MonsterData _monsterData;
 
-        public MonsterIdleState MonsterIdleState { get; private set; }
-        public MonsterRunState MonsterRunState { get; private set; }
-        public MonsterHitState MonsterHitState { get; private set; }
-        public MonsterDieState MonsterDieState { get; private set; }
-        public MonsterAttackState MonsterAttackState { get; private set; }
-        public StateMachine<Monster> StateMachine { get; private set; }
-
-        #endregion
-
-        public MonsterData MonsterData { get; private set; }
-        public void Init(MonsterData monsterData)
-        {
-            EntityVisual.Initialize();
-            StateMachine.Init(MonsterRunState);
-            SetDir.Initialize();
-            MonsterData = monsterData;
-            SetFaceDir(PlayerManager.Instance.Player.GetPosition());
-            maxHP =monsterData.maxHp;
-            attackValue = monsterData.attackValue;
-            currentHealth = maxHP;
-        }
         protected override void Awake()
         {
             base.Awake();
             StateMachine = new StateMachine<Monster>();
-            MonsterIdleState = new MonsterIdleState();
-            MonsterIdleState.Init(StateMachine, this);
-
-            MonsterRunState = new MonsterRunState();
-            MonsterRunState.Init(StateMachine, this);
-            MonsterHitState = new MonsterHitState();
-            MonsterHitState.Init(StateMachine, this);
-            MonsterAttackState = new MonsterAttackState();
-            MonsterAttackState.Init(StateMachine, this);
-            MonsterDieState = new MonsterDieState();
-            MonsterDieState.Init(StateMachine, this);
-        }
-        private void Update()
-        {
-            StateMachine.CurrentState.Execute();
+            IdleState = new MonsterIdleState();
+            IdleState.Init(StateMachine, this);
+            RunState = new MonsterRunState();
+            RunState.Init(StateMachine, this);
+            HitState = new MonsterHitState();
+            HitState.Init(StateMachine, this);
+            DieState = new MonsterDieState();
+            DieState.Init(StateMachine, this);
         }
 
-        public void Move(Vector3 target, Vector3 dir, float speed)
+        public void Init(MonsterData data,Vector3 initialPosition)
         {
-            SetFaceDir(target);
-            Rb.velocity = dir * speed;
+            transform.position = initialPosition;
+            currentHealth=data.maxHp;
+            _monsterData = data;
+            StateMachine.Init(RunState);
+            EventManager.Register<int>(GameEventKey.MonsterHit,Hit);
         }
 
-        private void SetFaceDir(Vector3 target)
+        private void Hit(int damage)
         {
-            if (target.x > transform.position.x)
+            currentHealth-=damage;
+            if (currentHealth <= 0)
             {
-                SetDir.SetFaceDir(FaceDirType.Right);
-            }
-            else if (target.x < transform.position.x)
-            {
-                SetDir.SetFaceDir(FaceDirType.Left);
-            }
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag("Bullet"))
-            {
-                Bullet bullet = other.GetComponent<Bullet>();
-
-                EntityVisual.HitAni();
-                Hit(bullet.GetAttackValue());
-            }
-        }
-
-        private void Hit(float damage)
-        {
-            if (GetCurrentHealth() <= 0)
-            {
-                StateMachine.ChangeState(MonsterDieState);
+                StateMachine.ChangeState(DieState);
             }
             else
             {
-                Damage(damage);
+                StateMachine.ChangeState(HitState);
             }
+        }
+
+        private void Update()
+        {
+            StateMachine.CurrentState?.Execute();
         }
 
         public void Die()
         {
-            EventManager.Execute(GameEventKey.PlayerExpAdd,MonsterData.expValue);
-            PoolManager.Instance.EnterPool("Monster", gameObject);
+            PoolManager.Instance.EnterPool(_monsterData.monsterName, gameObject);
+            EventManager.Unregister<int>(GameEventKey.MonsterHit,Hit);
+            EventManager.Execute(GameEventKey.PlayerExpAdd,_monsterData.expValue);
         }
+
     }
 }

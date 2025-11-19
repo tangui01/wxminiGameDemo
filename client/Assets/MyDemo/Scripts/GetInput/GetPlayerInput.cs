@@ -30,7 +30,7 @@ namespace MyDemo
             }
             if (Input.GetMouseButtonDown(0))
             {
-                EventManager.Execute(GameEventKey.ScreenClick, Input.mousePosition);
+                EventManager.Execute(GameEventKey.GunShoot,Vector3.right);
             }
         }
 
@@ -41,7 +41,7 @@ namespace MyDemo
         {
             if (Input.GetMouseButtonDown(0))
             {
-                EventManager.Execute(GameEventKey.ScreenClick, Input.mousePosition);
+                EventManager.Execute(GameEventKey.GunShoot, Vector3.right);
             }
         }
     }

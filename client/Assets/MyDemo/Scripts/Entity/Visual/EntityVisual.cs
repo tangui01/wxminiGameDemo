@@ -11,6 +11,7 @@ public class EntityVisual : MonoBehaviour
     private static readonly int RunAniName = Animator.StringToHash("Run");
     private static readonly int AttackAniName = Animator.StringToHash("Attack"); 
     private static readonly int DieAniName = Animator.StringToHash("Die"); 
+    private static readonly int HitAniName = Animator.StringToHash("Hit");
     private Animator  _animator;
     private SpriteRenderer _sr;
     
@@ -34,18 +35,10 @@ public class EntityVisual : MonoBehaviour
     {
         _animator.SetBool(AttackAniName,isPlay);
     }
-    public void HitAni()
+    public void HitAni(bool isPlay)
     {
-        StartCoroutine(HitAniRoutine());
+        _animator.SetBool(HitAniName,isPlay);
     }
-
-    IEnumerator HitAniRoutine()
-    {
-        _sr.color = Color.red;
-        yield return new WaitForSeconds(0.2f);
-        _sr.color = Color.white;
-    }
-
     public void Initialize()
     {
         _sr.color = Color.white;
