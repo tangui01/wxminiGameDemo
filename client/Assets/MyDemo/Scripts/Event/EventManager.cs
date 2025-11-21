@@ -308,7 +308,7 @@ namespace MyDemo
                 return;
             }
 
-            eventAction.Invoke(data);
+            eventAction?.Invoke(data);
         }
 
         public void Clear()

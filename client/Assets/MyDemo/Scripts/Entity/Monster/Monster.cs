@@ -11,28 +11,22 @@ namespace MyDemo
     {
         public float targetPositionX;
         public float moveTime;
-        public float hitTime;//受伤时间
-        public float dieTime;//死亡时间
-        public MonsterIdleState IdleState { get; set; }
-        public MonsterRunState RunState { get; set; }
-        public MonsterHitState HitState { get; set; }
-        public MonsterDieState DieState { get; set; }
-        public StateMachine<Monster> StateMachine { get; set; }
+       
+        
+        [SerializeField] protected float maxHP;
+        protected float currentHealth;
+        
         
         private MonsterData _monsterData;
+
+        public MonsterVisual MonsterVisual { get; set; }
+        private bool IsDie;
 
         protected override void Awake()
         {
             base.Awake();
-            StateMachine = new StateMachine<Monster>();
-            IdleState = new MonsterIdleState();
-            IdleState.Init(StateMachine, this);
-            RunState = new MonsterRunState();
-            RunState.Init(StateMachine, this);
-            HitState = new MonsterHitState();
-            HitState.Init(StateMachine, this);
-            DieState = new MonsterDieState();
-            DieState.Init(StateMachine, this);
+            MonsterVisual = GetComponent<MonsterVisual>();
+            MonsterVisual.Init(this);
         }
 
         public void Init(MonsterData data,Vector3 initialPosition)
@@ -40,33 +34,41 @@ namespace MyDemo
             transform.position = initialPosition;
             currentHealth=data.maxHp;
             _monsterData = data;
-            StateMachine.Init(RunState);
+            IsDie = false;
             EventManager.Register<int>(GameEventKey.MonsterHit,Hit);
+            Born();
+        }
+
+        private void Born()
+        {
+            MonsterVisual.BornAni();
+        }
+
+        public void Idle()
+        {
+            MonsterVisual.IdleAni();
         }
 
         private void Hit(int damage)
         {
+            if(IsDie) return;
             currentHealth-=damage;
             if (currentHealth <= 0)
             {
-                StateMachine.ChangeState(DieState);
+                IsDie=true;
+                MonsterVisual.DieAni();
             }
             else
             {
-                StateMachine.ChangeState(HitState);
+                MonsterVisual.HitAni();
             }
         }
-
-        private void Update()
-        {
-            StateMachine.CurrentState?.Execute();
-        }
-
         public void Die()
         {
             PoolManager.Instance.EnterPool(_monsterData.monsterName, gameObject);
             EventManager.Unregister<int>(GameEventKey.MonsterHit,Hit);
             EventManager.Execute(GameEventKey.PlayerExpAdd,_monsterData.expValue);
+            EventManager.Execute(GameEventKey.MonsterDie);
         }
 
     }

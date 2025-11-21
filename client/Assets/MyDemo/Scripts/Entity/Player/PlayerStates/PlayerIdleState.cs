@@ -18,7 +18,7 @@ namespace MyDemo
 
         public virtual void Enter()
         {
-            _entity.EntityVisual.IdleAni(true);
+           _entity.Visual.IdleAni(_entity.CurrentAttackMode);
         }
         public void Execute()
         {
@@ -26,7 +26,7 @@ namespace MyDemo
         }
         public void Exit()
         {
-            _entity.EntityVisual.IdleAni(false);
+           
         }
     }
 }

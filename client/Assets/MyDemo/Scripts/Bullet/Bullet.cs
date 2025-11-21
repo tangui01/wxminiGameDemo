@@ -36,9 +36,5 @@ namespace MyDemo
         {
             return _attackValue;
         }
-
-        private void Update()
-        {
-        }
     }
 }

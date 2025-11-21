@@ -23,24 +23,17 @@ namespace  MyDemo
 
         public void Enter()
         {
-           _entity.EntityVisual.DeadAni(true);
+              _entity.MonsterVisual.DieAni();
         }
 
         public void Execute()
         {
-            stateTimer+=Time.deltaTime;
-            if (stateTimer>=_entity.dieTime)
-            {
-                stateTimer = 0;
-                _stateMachine.ChangeState(_entity.IdleState);
-            }
+            
         }
 
         public void Exit()
         {
-            _entity.Die();
-            _entity.EntityVisual.DeadAni(false);
-            EventManager.Execute(GameEventKey.MonsterDie);
+           
         }
     }
 }

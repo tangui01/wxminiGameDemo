@@ -2,17 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackState : MonoBehaviour
+namespace MyDemo
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerAttackState:IsState<Player>
     {
-        
-    }
+        private StateMachine<Player> _stateMachine;
+        private Player _entity;
 
-    // Update is called once per frame
-    void Update()
-    {
+        StateMachine<Player> IsState<Player>.StateMachine => _stateMachine;
+
+        Player IsState<Player>.Entity => _entity;
         
+        public void Init(StateMachine<Player> stateMachine, Player entity)
+        {
+            _stateMachine = stateMachine;
+            _entity = entity;
+        }
+
+        public void Enter()
+        {
+            _entity.Visual.AttackAni(_entity.CurrentAttackMode);
+            
+        }
+
+        public void Execute()
+        {
+           
+        }
+
+        public void Exit()
+        {
+            
+        }
     }
 }
+

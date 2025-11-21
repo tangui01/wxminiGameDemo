@@ -22,22 +22,17 @@ namespace MyDemo
 
         public void Enter()
         {
-            _entity.EntityVisual.HitAni(true);
+           _entity.MonsterVisual.HitAni();
         }
 
         public void Execute()
         {
-            _stateTimer+=Time.deltaTime;
-            if (_stateTimer>=_entity.hitTime)
-            {
-                _stateMachine.ChangeState(_entity.IdleState);
-            }
+           
         }
 
         public void Exit()
         {
-            _stateTimer = 0;
-            _entity.EntityVisual.HitAni(false);
+            
         }
     }
 }

@@ -23,11 +23,6 @@ public class PlayerGameData
     public int posZ;
 
     /// <summary>
-    /// 是否朝向右
-    /// </summary>
-    public bool isFaceRight;
-
-    /// <summary>
     /// 当前经验值
     /// </summary>
     public int currentExp;
@@ -36,6 +31,16 @@ public class PlayerGameData
     /// 角色当前等级
     /// </summary>
     public int currentPlayerLv;
+
+    /// <summary>
+    /// 玩家攻击方式
+    /// </summary>
+    public int playerAttackMode;
+
+    /// <summary>
+    /// 玩家武器
+    /// </summary>
+    public string playerWeaPon;
 }
 
 public class GameData : BassData
@@ -59,15 +64,15 @@ public class GameData : BassData
     {
         return _data;
     }
+
     public override string InitData()
     {
         _data.currentExp = 0;
         _data.currentPlayerLv = 1;
         _data.currentLevel = 1;
         _data.posX = -2200;
-        _data.posY =-1250;
+        _data.posY = -1250;
         _data.posZ = 0;
-        _data.isFaceRight = true;
         return JsonUtility.ToJson(_data);
     }
 
@@ -84,15 +89,9 @@ public class GameData : BassData
 
     public bool SetPos(Vector3 pos)
     {
-        _data.posX = (int)(pos.x*100);
-        _data.posY = (int)(pos.y*100);
-        _data.posZ = (int)(pos.z*100);
-        SaveData(JsonUtility.ToJson(_data));
-        return true;
-    }
-    public bool SetDir(FaceDirType dirType)
-    {
-        _data.isFaceRight = dirType == FaceDirType.Right;
+        _data.posX = (int)(pos.x * 100);
+        _data.posY = (int)(pos.y * 100);
+        _data.posZ = (int)(pos.z * 100);
         SaveData(JsonUtility.ToJson(_data));
         return true;
     }
@@ -118,6 +117,6 @@ public class GameData : BassData
 
     public Vector3 GetPlayerPos()
     {
-        return new Vector3((float)_data.posX/100,(float)_data.posY/100, (float)_data.posZ/100);
+        return new Vector3((float)_data.posX / 100, (float)_data.posY / 100, (float)_data.posZ / 100);
     }
 }

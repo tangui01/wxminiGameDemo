@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/// <summary>
-/// 状态机
-/// </summary>
+
 namespace MyDemo
 {
+    /// <summary>
+    /// 状态机
+    /// </summary>
     public class StateMachine<TEntity> where TEntity : Entity
     {
         public IsState<TEntity> CurrentState { get; private set; }

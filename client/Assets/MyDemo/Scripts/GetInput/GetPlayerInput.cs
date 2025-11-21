@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-
 namespace MyDemo
 {
     /// <summary>
@@ -30,7 +29,7 @@ namespace MyDemo
             }
             if (Input.GetMouseButtonDown(0))
             {
-                EventManager.Execute(GameEventKey.GunShoot,Vector3.right);
+                EventManager.Execute(GameEventKey.WeaponAttack);
             }
         }
 
@@ -41,7 +40,7 @@ namespace MyDemo
         {
             if (Input.GetMouseButtonDown(0))
             {
-                EventManager.Execute(GameEventKey.GunShoot, Vector3.right);
+                EventManager.Execute(GameEventKey.WeaponAttack);
             }
         }
     }

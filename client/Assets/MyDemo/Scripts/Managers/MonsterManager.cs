@@ -11,7 +11,6 @@ namespace MyDemo
         private Monster _currentMonster; //当前怪物
         private MonsterData _currentMonsterData;
         [SerializeField]private Vector3 monsterSpawnPosition;
-        private Vector3 monsterBattleRotation;
         private void Start()
         {
             LoadMonster();

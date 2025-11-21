@@ -135,7 +135,6 @@ namespace MyDemo
         {
             ClearPool();
         }
-
         public void ClearPool()
         {
             poolDict.Clear();

@@ -21,7 +21,7 @@ namespace MyDemo
 
         public void Enter()
         {
-            _entity.EntityVisual.IdleAni(true);
+           _entity.MonsterVisual.IdleAni();
         }
 
         public void Execute()
@@ -31,7 +31,7 @@ namespace MyDemo
 
         public void Exit()
         {
-            _entity.EntityVisual.IdleAni(false);
+        
         }
     }
 }

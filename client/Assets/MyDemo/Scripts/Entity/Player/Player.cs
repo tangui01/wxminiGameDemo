@@ -1,96 +1,105 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace MyDemo
 {
     /// <summary>
-    /// 主角战斗模式
+    /// 主角攻击方式
     /// </summary>
-    public enum PlayerBattleMode
+    public enum PlayerAttackMode
     {
         /// <summary>
         /// 近战
         /// </summary>
-        Melee,
+        JinZhan,
         /// <summary>
-        /// 远程
+        /// 手枪
         /// </summary>
-        Gun
+        ShouQiang,
+        /// <summary>
+        /// 机枪
+        /// </summary>
+        JiQiang
+   
     }
 
     public class Player : Entity
     {
         #region States
+
         public StateMachine<Player> MStateMachine { get; private set; }
         public PlayerIdleState IdleState { get; private set; }
         public PlayerRunState RunState { get; private set; }
         
+        public PlayerAttackState AttackState { get; private set; }
+
         private Camera mainCamera;
+
         #endregion
 
-        [SerializeField] protected int attackValue;
+        public int attackValue;
+        private PlayerLevelSys _playerLevelSys;
 
-        public float TargetPosition { get; set; } //移动的目标位置
+        public PlayerAttackMode CurrentAttackMode { get;private set; }
         
+        public PlayerVisual Visual { get;private set; }
 
-        public Gun Gun { get; private set; }
-        
-        private PlayerLevelSys playerLevelSys;
-
-        
-
-        public void Init()
+        public void Init(PlayerAttackMode  mode)
         {
-            //获取角色游戏数据
-            var data = PlayerData.GetGameData();
-            PlayerGameData gameData = data.GetData();
-            transform.position = data.GetPlayerPos();
-            playerLevelSys = GetComponent<PlayerLevelSys>();
-            playerLevelSys.Init();
+            // //获取角色游戏数据
+            // var data = PlayerData.GetGameData();
+            // PlayerGameData gameData = data.GetData();
+            // transform.position = data.GetPlayerPos();
+            _playerLevelSys = GetComponent<PlayerLevelSys>();
+            _playerLevelSys.Init();
+            
+            CurrentAttackMode=mode;
         }
+
+
 
         protected override void Awake()
         {
             base.Awake();
-            Gun = transform.Find("Gun").GetComponent<Gun>();
-            Gun.Init(attackValue);
+            Visual = GetComponent<PlayerVisual>();
+            Visual.Init(this);
             MStateMachine = new StateMachine<Player>();
             IdleState = new PlayerIdleState();
             RunState = new PlayerRunState();
+            AttackState = new PlayerAttackState();
             IdleState.Init(MStateMachine, this);
             MStateMachine.Init(IdleState);
             RunState.Init(MStateMachine, this);
+            AttackState.Init(MStateMachine, this);
         }
 
         private void OnEnable()
         {
-            EventManager.Register<int>(GameEventKey.PlayerHit, Hit);
             EventManager.Register(GameEventKey.GameExit, SaveData);
+            EventManager.Register(GameEventKey.WeaponAttack,Attack);
+            EventManager.Register(GameEventKey.PlayerAttackAniComplete,Idle);
         }
 
         private void OnDisable()
         {
-            EventManager.Unregister<int>(GameEventKey.PlayerHit, Hit);
             EventManager.Unregister(GameEventKey.GameExit, SaveData);
+            EventManager.Unregister(GameEventKey.WeaponAttack,Attack);
+            EventManager.Unregister(GameEventKey.PlayerAttackAniComplete,Idle);
         }
 
+        /// <summary>
+        /// 切换攻击方式
+        /// </summary>
+        public void SwitchAttackMode(PlayerAttackMode targetMode)
+        {
+            if (CurrentAttackMode.Equals(targetMode)) return;
+            CurrentAttackMode=targetMode;
+        }
         private void Update()
         {
             MStateMachine.CurrentState.Execute();
-        }
-
-
-        private void Hit(int damage)
-        {
-            Damage(damage);
-            if (GetCurrentHealth() > 0)
-            {
-                EntityVisual.HitAni(true);
-            }
-            else
-            {
-                //角色死亡
-                GameManager.Instance.GameOver();
-            }
         }
 
         public Vector3 GetPosition()
@@ -98,10 +107,24 @@ namespace MyDemo
             return transform.position;
         }
 
+        private void Attack()
+        {
+            MStateMachine.ChangeState(AttackState);
+        }
+
+        private void Idle()
+        {
+            MStateMachine.ChangeState(IdleState);
+        }
+
         private void SaveData()
         {
             var data = PlayerData.GetGameData();
             PlayerGameData gameData = data.GetData();
+        }
+        public void DoMove(Vector3 direction,Action callback=null)
+        {
+            transform.DOMove(direction, 0.25f).onComplete +=()=>callback?.Invoke();
         }
     }
 }

@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 namespace MyDemo 
 { 
 // <summary>
 /// 人物行走状态
-/// </summary>
+// <summary>
 public class PlayerRunState : IsState<Player>
 {
     private StateMachine<Player> _stateMachine;
@@ -15,8 +11,6 @@ public class PlayerRunState : IsState<Player>
     StateMachine<Player> IsState<Player>.StateMachine => _stateMachine;
 
     Player IsState<Player>.Entity => _entity;
-    private float _targetPosition;
-
     public void Init(StateMachine<Player> stateMachine, Player entity)
     {
         _stateMachine = stateMachine;
@@ -25,33 +19,16 @@ public class PlayerRunState : IsState<Player>
 
     public void Enter()
     {
-        _entity.EntityVisual.RunningAni(true);
-        _targetPosition = _entity.TargetPosition;
-        SetDir();
+       
     }
 
     public void Execute()
     {
         
     }
-    /// <summary>
-    /// 根据点击的位置设置人物的朝向
-    /// </summary>
-    private void SetDir()
-    {
-        if (_entity.TargetPosition <= _entity.transform.position.x)
-        {
-            _entity.SetDir.SetFaceDir(FaceDirType.Left);
-        }
-        else if (_entity.TargetPosition > _entity.transform.position.x)
-        {
-            _entity.SetDir.SetFaceDir(FaceDirType.Right);
-        }
-    }
-
     public void Exit()
     {
-        _entity.EntityVisual.RunningAni(false);
+      
     }
 }
 }

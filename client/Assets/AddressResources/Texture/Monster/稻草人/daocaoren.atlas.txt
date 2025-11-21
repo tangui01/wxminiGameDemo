@@ -1,0 +1,13 @@
+
+daocaoren.png
+size: 193,245
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+图层 2
+  rotate: false
+  xy: 2, 2
+  size: 189, 241
+  orig: 189, 252
+  offset: 0, 9
+  index: -1
